@@ -21,7 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
+import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.FamilyRestroom
 import androidx.compose.material.icons.rounded.Inventory2
 import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.Refresh
@@ -53,6 +55,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.tiantian.school.AppRole
 import com.tiantian.school.data.local.AppPrefs
 import com.tiantian.school.data.model.Ad
 import com.tiantian.school.data.model.tiancoinText
@@ -221,6 +224,61 @@ fun HomeTab(
         }
 
         Spacer(Modifier.height(18.dp))
+
+        // ---------- 未绑定家长提示（孩子端显眼位置）----------
+        val guardianStatus = AppState.user?.guardianStatus
+        val needBindGuardian = AppRole.isChild &&
+            (guardianStatus == null || guardianStatus == "unbound" || guardianStatus == "pending")
+        if (needBindGuardian) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 18.dp)
+                    .clickable { navController.navigate(Routes.BIND_PARENT) },
+                shape = RoundedCornerShape(16.dp),
+                color = Color(0xFFFFF3E0)
+            ) {
+                Row(
+                    modifier = Modifier.padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(Color(0xFFFFE0B2)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.FamilyRestroom,
+                            contentDescription = null,
+                            tint = Color(0xFF9A6B00),
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = if (guardianStatus == "pending") "等待家长确认" else "还没有绑定家长",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color(0xFF8A5B00)
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = "点这里输入家长端的配对码，绑定后可同步学习报告",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color(0xFF9A6B00)
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.Rounded.ChevronRight,
+                        contentDescription = null,
+                        tint = Color(0xFF9A6B00)
+                    )
+                }
+            }
+            Spacer(Modifier.height(18.dp))
+        }
 
         // ---------- 功能宫格 ----------
         Column(modifier = Modifier.padding(horizontal = 18.dp)) {

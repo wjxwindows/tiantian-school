@@ -40,6 +40,8 @@ data class User(
     val gender: String? = null,
     val eduSystem: String? = null,
     val grade: Int? = null,
+    /** 监护状态：unbound 未绑定 / pending 待确认 / bound 已绑定 */
+    val guardianStatus: String? = null,
     val tiancoin: Any? = null,
     val inventory: List<InventoryItem>? = null,
     val equippedBadge: String? = null,

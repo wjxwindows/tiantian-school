@@ -22,6 +22,7 @@ import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Devices
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.FamilyRestroom
 import androidx.compose.material.icons.rounded.Inventory2
 import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.ReportProblem
@@ -172,6 +173,10 @@ fun ProfileTab(navController: NavHostController) {
             }
             ProfileRow(Icons.Rounded.Devices, "登录设备管理", "查看并下线其他设备") {
                 navController.navigate(Routes.DEVICES)
+            }
+            // 孩子端专属：绑定家长入口（未绑定时也能在这里找到）
+            ProfileRow(Icons.Rounded.FamilyRestroom, "绑定家长", "输入家长端的配对码完成绑定") {
+                navController.navigate(Routes.BIND_PARENT)
             }
             ProfileRow(Icons.Rounded.Settings, "设置", "服务器地址与 3D 校园地址") {
                 navController.navigate(Routes.SETTINGS)
