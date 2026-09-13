@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  本地/局域网调试允许明文 HTTP（当前开发服务器 192.168.1.32）。
+  生产环境务必改回 HTTPS，并把 cleartextTrafficPermitted 设为 false。
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
