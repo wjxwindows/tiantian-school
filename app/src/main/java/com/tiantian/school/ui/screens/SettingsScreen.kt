@@ -242,13 +242,16 @@ fun SettingsScreen(navController: NavHostController) {
                     }
                 }
 
-                Spacer(Modifier.height(12.dp))
-                OutlinedButton(
-                    onClick = { navController.navigate(com.tiantian.school.ui.nav.Routes.APPEAL) },
-                    shape = RoundedCornerShape(14.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("账号申诉")
+                // 管理员账号不受封禁影响，不显示申诉入口
+                if (!AppState.isAdmin) {
+                    Spacer(Modifier.height(12.dp))
+                    OutlinedButton(
+                        onClick = { navController.navigate(com.tiantian.school.ui.nav.Routes.APPEAL) },
+                        shape = RoundedCornerShape(14.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("账号申诉")
+                    }
                 }
 
                 Spacer(Modifier.height(24.dp))

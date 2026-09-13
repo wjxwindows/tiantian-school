@@ -31,6 +31,8 @@ data class LoginResponse(
 
 data class User(
     val username: String = "",
+    /** 账号类型：child / parent / admin。由服务端判定，客户端不可篡改 */
+    val accountType: String? = null,
     val nickname: String? = null,
     val phone: String? = null,
     val email: String? = null,

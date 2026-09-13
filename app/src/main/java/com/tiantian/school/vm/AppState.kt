@@ -33,12 +33,25 @@ object AppState {
     val isBanned: Boolean
         get() = user?.isBanned == true
 
+    /**
+     * 是否管理员账号。
+     *
+     * 管理员是系统级账号（不属于家长/孩子），由服务端初始化，不能被封禁，
+     * 也不应该出现「账号申诉」这类面向普通用户的入口。
+     * 优先用 accountType 判定，老数据没有该字段时回退到「天币无限」这一特征。
+     */
+    val isAdmin: Boolean
+        get() {
+            val type = user?.accountType
+            if (!type.isNullOrBlank()) {
+                return type.equals("admin", ignoreCase = true)
+            }
+            val coin = user?.tiancoin
+            return coin is String && coin.equals("unlimited", ignoreCase = true)
+        }
+
     val equippedBadge: String
         get() = user?.equippedBadge.orEmpty()
-
-    val isAdmin: Boolean
-        get() = user?.tiancoin is String &&
-            (user?.tiancoin as? String)?.equals("unlimited", ignoreCase = true) == true
 
     fun updateUser(newUser: User?) {
         user = newUser

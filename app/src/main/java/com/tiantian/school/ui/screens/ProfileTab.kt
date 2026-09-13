@@ -176,8 +176,11 @@ fun ProfileTab(navController: NavHostController) {
             ProfileRow(Icons.Rounded.Settings, "设置", "服务器地址与 3D 校园地址") {
                 navController.navigate(Routes.SETTINGS)
             }
-            ProfileRow(Icons.Rounded.ReportProblem, "账号申诉", "对封禁或异常进行处理") {
-                navController.navigate(Routes.APPEAL)
+            // 管理员是系统级账号，不会被封禁，因此不提供申诉入口
+            if (!AppState.isAdmin) {
+                ProfileRow(Icons.Rounded.ReportProblem, "账号申诉", "对封禁或异常进行处理") {
+                    navController.navigate(Routes.APPEAL)
+                }
             }
         }
 

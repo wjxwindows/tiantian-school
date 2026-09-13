@@ -177,16 +177,19 @@ private fun BannedScreen(navController: NavHostController) {
                     textAlign = TextAlign.Center
                 )
                 Spacer(Modifier.height(20.dp))
-                Button(
-                    onClick = { navController.navigate(Routes.APPEAL) },
-                    shape = RoundedCornerShape(14.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                ) {
-                    Text("提交申诉")
+                // 管理员不会被封禁；即使服务端误标，也不给申诉入口
+                if (!AppState.isAdmin) {
+                    Button(
+                        onClick = { navController.navigate(Routes.APPEAL) },
+                        shape = RoundedCornerShape(14.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                    ) {
+                        Text("提交申诉")
+                    }
+                    Spacer(Modifier.height(10.dp))
                 }
-                Spacer(Modifier.height(10.dp))
                 Button(
                     onClick = {
                         AppState.logout()
