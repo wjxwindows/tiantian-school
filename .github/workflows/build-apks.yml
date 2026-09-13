@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,3 +52,19 @@ jobs:
           name: 天天校园-家长端-APK
           path: app/build/outputs/apk/parent/debug/*.apk
           if-no-files-found: error
+
+      # 同时发到 Release：公共仓库的 Release 资产可匿名下载，方便直接取包
+      - name: Publish to Release
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: 天天校园 双端构建 #${{ github.run_number }}
+          body: |
+            自动构建产物
+
+            - 天天校园·孩子端：app-child-debug.apk
+            - 天天校园·家长端：app-parent-debug.apk
+          files: |
+            app/build/outputs/apk/child/debug/*.apk
+            app/build/outputs/apk/parent/debug/*.apk
